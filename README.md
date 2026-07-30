@@ -3,20 +3,20 @@
 이 프로젝트는 개발과 인프라 운영의 필수 기본기인 리눅스 터미널 제어, Docker를 활용한 컨테이너 구축 및 운영, Git/GitHub을 통한 버전 관리를 직접 실습하고 증명하는 미션입니다<br>
 
 모든 과정은 명령어와 실행 결과를 기록하여 기술 문서로 남기며, 이를 통해 인프라 환경을 스스로 구성하고 문제를 해결할 수 있는 능력을 기르는 것을 목표로 합니다<br>
-
+<br>
 ## 실행 환경 
-OS: macOS Sequoia 15.7.4
-Termional: Apple_Terminal
-Shell: /bin/zsh 
-Docker 버전 : 29.4.0
-Git 버전 : 2.53.0
-
+OS: macOS Sequoia 15.7.4<br>
+Termional: Apple_Terminal<br>
+Shell: /bin/zsh <br>
+Docker 버전 : 29.4.0<br>
+Git 버전 : 2.53.0<br>
+<br>
 ## 미션 수행 체크리스트 
 ### Step 1. Git 설정 및 GitHub 연동 
 - Git 사용자 이름과 이메일을 설정하고 git config --list 결과 기록하기
 - GitHub에 새로운 Repository 생성하기
 - 로컬 환경과 GitHub Repository 연동하고 증거(스크린샷 등) 첨부하기
-<br><br>
+<br>ç
 ### Step 2. 리눅스 터미널 및 권한 실습 
 - 기본 명령어 실습 (명령어 + 출력 결과 기록)
     - 현재 위치 확인 (pwd) 및 숨김 파일 포함 목록 확인 (ls -al)
