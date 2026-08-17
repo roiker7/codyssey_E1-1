@@ -706,7 +706,7 @@ git push -f
 ## 📎 실행 방법 참고
 
 ```bash
-git clone https://github.com/roiker7/codyssey_test.git
+git clone https://github.com/roiker7/codyssey_E1-1.git
 cd codyssey_test
 docker build -t my-web .
 docker run -d --name web-container -p 8080:80 my-web
