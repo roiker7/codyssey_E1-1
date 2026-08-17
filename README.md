@@ -19,10 +19,9 @@
 OS       : macOS
 Shell    : zsh
 Docker   : Docker version 29.4.0, build 9d7ad9f (Docker Context: orbstack / OrbStack 사용)
-Git      : 원격 저장소 - https://github.com/roiker7/codyssey_test.git (branch: main)
+Git      : git version 2.53.0
+Kernel   : 24.6.0
 ```
-
-> Git 클라이언트 버전(`git --version`)은 별도로 기록해 두지 않아 이 문서에는 포함하지 않았다.
 
 ## ✅ 수행 항목 체크리스트
 
@@ -62,14 +61,14 @@ core.bare=false
 core.logallrefupdates=true
 core.ignorecase=true
 core.precomposeunicode=true
-remote.origin.url=https://github.com/roiker7/codyssey_test.git
+remote.origin.url=https:"개인정보삭제"
 remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
 branch.main.remote=origin
 branch.main.merge=refs/heads/main
 branch.main.vscode-merge-base=origin/main
 ```
 
-**검증 방법**: `remote.origin.url`, `branch.main.remote`, `branch.main.merge` 값이 모두 정상적으로 설정되어 있는 것으로 GitHub 저장소와의 연동 및 `main` 브랜치 추적 설정이 완료되었음을 확인했다. `credential.helper=osxkeychain` 설정으로 macOS 키체인을 통한 인증을 사용 중이다.
+**검증 방법**: `remote.origin.url`, `branch.main.remote`, `branch.main.merge` 값이 모두 정상적으로 설정되어 있는 것으로 GitHub 저장소와의 연동 및 `main` 브랜치 추적 설정이 완료되었음을 확인했다. 
 
 ---
 
@@ -234,7 +233,7 @@ drwx------  2 roiker78137  roiker78137   64  7 30 16:21 test2
 
 | 대상 | 변경 전 | 변경 후 | 의미 |
 |---|---|---|---|
-| `test1` (파일) | `rw-r--r--` (644) | `rwxrwxrwx` (777) | 소유자·그룹·기타 모두 모든 권한 부여 (보안상 권장되지 않음) |
+| `test1` (파일) | `rw-r--r--` (644) | `rwxrwxrwx` (777) | 소유자·그룹·기타 모두 모든 권한 부여|
 | `test2` (디렉토리) | `rwxr-xr-x` (755) | `rwx------` (700) | 소유자만 디렉토리 접근·탐색 가능 |
 
 **권한 체계 참고**
@@ -261,7 +260,7 @@ docker --version
 ```
 
 ```text
-Docker version 29.4.0, build 9d7ad9f
+Docker version 29.4.0
 ```
 
 ```bash
@@ -330,26 +329,6 @@ nginx:latest          5a88c9c45479        240MB           66MB   U
 ```
 
 **컨테이너 실행 상태 확인**
-
-```bash
-docker ps
-```
-
-```text
-CONTAINER ID   IMAGE     COMMAND                   CREATED       STATUS       PORTS                                     NAMES
-ac7bf8188c92   my-web    "/docker-entrypoint.…"   6 hours ago   Up 6 hours   0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   web-container
-71b98034b225   nginx     "/docker-entrypoint.…"   6 hours ago   Up 6 hours   0.0.0.0:8081->80/tcp, [::]:8081->80/tcp   web-container-2
-```
-
-**컨테이너 중지 및 전체 목록 확인**
-
-```bash
-docker stop web-container-2
-```
-
-```text
-web-container-2
-```
 
 ```bash
 docker ps -a
