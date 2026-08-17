@@ -18,8 +18,8 @@
 ```text
 OS       : macOS
 Shell    : zsh
-Docker   : Docker version 29.4.0, build 9d7ad9f (Docker Context: orbstack / OrbStack 사용)
-Git      : git version 2.53.0
+Docker   : 29.4.0Docker Context: orbstack / OrbStack 사용)
+Git      : 2.53.0
 Kernel   : 24.6.0
 ```
 
