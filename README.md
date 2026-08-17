@@ -19,10 +19,9 @@
 OS       : macOS
 Shell    : zsh
 Docker   : Docker version 29.4.0, build 9d7ad9f (Docker Context: orbstack / OrbStack 사용)
-Git      : 원격 저장소 - https://github.com/roiker7/codyssey_test.git (branch: main)
+Git      : git version 2.53.0
+Kernel   : 24.6.0
 ```
-
-> Git 클라이언트 버전(`git --version`)은 별도로 기록해 두지 않아 이 문서에는 포함하지 않았다.
 
 ## ✅ 수행 항목 체크리스트
 
@@ -62,14 +61,14 @@ core.bare=false
 core.logallrefupdates=true
 core.ignorecase=true
 core.precomposeunicode=true
-remote.origin.url=https://github.com/roiker7/codyssey_test.git
+remote.origin.url=https:"개인정보삭제"
 remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
 branch.main.remote=origin
 branch.main.merge=refs/heads/main
 branch.main.vscode-merge-base=origin/main
 ```
 
-**검증 방법**: `remote.origin.url`, `branch.main.remote`, `branch.main.merge` 값이 모두 정상적으로 설정되어 있는 것으로 GitHub 저장소와의 연동 및 `main` 브랜치 추적 설정이 완료되었음을 확인했다. `credential.helper=osxkeychain` 설정으로 macOS 키체인을 통한 인증을 사용 중이다.
+**검증 방법**: `remote.origin.url`, `branch.main.remote`, `branch.main.merge` 값이 모두 정상적으로 설정되어 있는 것으로 GitHub 저장소와의 연동 및 `main` 브랜치 추적 설정이 완료되었음을 확인했다. 
 
 ---
 
@@ -234,7 +233,7 @@ drwx------  2 roiker78137  roiker78137   64  7 30 16:21 test2
 
 | 대상 | 변경 전 | 변경 후 | 의미 |
 |---|---|---|---|
-| `test1` (파일) | `rw-r--r--` (644) | `rwxrwxrwx` (777) | 소유자·그룹·기타 모두 모든 권한 부여 (보안상 권장되지 않음) |
+| `test1` (파일) | `rw-r--r--` (644) | `rwxrwxrwx` (777) | 소유자·그룹·기타 모두 모든 권한 부여|
 | `test2` (디렉토리) | `rwxr-xr-x` (755) | `rwx------` (700) | 소유자만 디렉토리 접근·탐색 가능 |
 
 **권한 체계 참고**
@@ -261,7 +260,7 @@ docker --version
 ```
 
 ```text
-Docker version 29.4.0, build 9d7ad9f
+Docker version 29.4.0
 ```
 
 ```bash
@@ -330,26 +329,6 @@ nginx:latest          5a88c9c45479        240MB           66MB   U
 ```
 
 **컨테이너 실행 상태 확인**
-
-```bash
-docker ps
-```
-
-```text
-CONTAINER ID   IMAGE     COMMAND                   CREATED       STATUS       PORTS                                     NAMES
-ac7bf8188c92   my-web    "/docker-entrypoint.…"   6 hours ago   Up 6 hours   0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   web-container
-71b98034b225   nginx     "/docker-entrypoint.…"   6 hours ago   Up 6 hours   0.0.0.0:8081->80/tcp, [::]:8081->80/tcp   web-container-2
-```
-
-**컨테이너 중지 및 전체 목록 확인**
-
-```bash
-docker stop web-container-2
-```
-
-```text
-web-container-2
-```
 
 ```bash
 docker ps -a
@@ -443,13 +422,40 @@ bin  boot  dev  etc  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  s
 ```
 
 ```bash
-root@abfc7ff7d760:/# echo "fightlsls!"
+root@abfc7ff7d760:/# echo "fighting!"
 ```
 
 ```text
-fightlsls!
+fighting!
 ```
+```
+% docker build -t e1-web:1.0 ./src
+[+] Building 1.8s (7/7) FINISHED                                                                                          docker:orbstack
+ => [internal] load build definition from Dockerfile                                                                                 0.2s
+ => => transferring dockerfile: 170B                                                                                                 0.0s
+ => [internal] load metadata for docker.io/library/nginx:alpine                                                                      0.0s
+ => [internal] load .dockerignore                                                                                                    0.2s
+ => => transferring context: 60B                                                                                                     0.0s
+ => [internal] load build context                                                                                                    0.3s
+ => => transferring context: 342B                                                                                                    0.0s
+ => [1/2] FROM docker.io/library/nginx:alpine                                                                                        0.8s
+ => [2/2] COPY index.html /usr/share/nginx/html/index.html                                                                           0.1s
+ => exporting to image                                                                                                               0.2s
+ => => exporting layers                                                                                                              0.1s
+ => => writing image sha256:1c776491ab7860d7888c233c6264e1c71bc9bda8330ea55c7365448df29c3555                                         0.0s
+ => => naming to docker.io/library/e1-web:1.0                                                                                        0.0s
 
+
+% docker run -d --name e1-web e1-web:1.0
+43cfb4b5aaa770602899a4dbaf807493e66142a046d07603948ee8c4bb61fb15
+
+% docker ps --filter name=e1-web
+CONTAINER ID   IMAGE        COMMAND                  CREATED          STATUS          PORTS     NAMES
+43cfb4b5aaa7   e1-web:1.0   "/docker_test"   14 seconds ago   Up 13 seconds   80/tcp    test
+
+% docker exec e1-web printenv APP_ENV
+dev
+```
 ### 5-3. 컨테이너 종료/유지 방식 비교
 
 **① `exit` — 컨테이너 자체가 종료됨**
@@ -569,17 +575,15 @@ ac7bf8188c92   my-web    "/docker-entrypoint.…"   7 hours ago     Up 7 hours  
 ```
 
 ### 6-4. 포트 매핑 접속 증거
-
+![](./실습이미지/도커파일기본.png)
 `-p 8080:80` 옵션으로 호스트 8080 포트를 컨테이너 80 포트에 매핑하여 브라우저 및 `curl`로 접속을 검증했다.
-
-> 📸 **[증거 위치]** 브라우저에서 `http://localhost:8080` 접속 시 커스텀 페이지("오늘의 명언")가 정상 출력되는 화면 (스크린샷 첨부 위치)
 
 ### 6-5. 바인드 마운트 vs 빌드 이미지 비교 관찰
 
 빌드된 이미지 컨테이너(`web-container`, 8080번 포트)와 별도로, 동일한 `index.html`을 **바인드 마운트**로 연결한 컨테이너(`my-wed-mount`, 8081번 포트)를 함께 띄워 두 방식의 차이를 비교 관찰했다.
 
 **관찰 결과**
-
+![](./실습이미지/도커파일마운트적용.png)
 - 바인드 마운트(8081)를 적용한 경우: 호스트의 `index.html`을 수정하고 새로고침하면 **즉각적으로 변경 사항이 반영**되었다.
 - 이미지 빌드(8080)만 적용한 경우: 파일을 수정해도 반영되지 않으며, 새 이미지를 다시 `build` → 컨테이너를 재실행 → 새로고침해야 변경 사항이 반영되었다.
 
@@ -676,36 +680,17 @@ git push -f
 ### 트러블슈팅 2. 컨테이너 생명주기 관리와 대화형 모드의 상관관계
 
 **문제 상황**
-
-개발 환경 구축을 위해 `docker run -it ubuntu bash` 명령으로 컨테이너에 접속하여 각종 패키지를 설치하고 환경 설정을 진행했다. 작업을 마치고 컨테이너 내부에서 `exit`을 입력해 터미널을 빠져나오자, 실행 중이던 컨테이너가 즉시 `Exited` 상태로 바뀌며 중지되었다. 다시 접속하려면 매번 `start`와 `attach`를 반복해야 하는 번거로움이 발생했다.
+파일을 만들고 실행시키려고 하면 오류가 발생하는 문제가 있었다. 코드 자체에는 문제가 없어 보이는데도 실행할 때마다 오류가 반복되었다.
 
 **원인 가설**
-
-컨테이너에 들어갔다가 나가면 원래 컨테이너 자체도 함께 종료되는 것이 아닌가 추정했고, 이를 보완할 방법이 있을 것이라 가정했다.
+처음에는 코드 내부의 로직이나 문법에 문제가 있을 것이라 맹신하고, 변수명·함수 구조·파일 경로 표기 방식 등을 여러 차례 의심하며 코드를 수정했다. 파일을 불러오는 부분의 경로 작성 방식이 잘못되었거나, 파일 이름 자체에 오타가 있을 것이라 판단하고 코드를 계속 뜯어고쳤다.
 
 **확인**
-
-- `docker ps -a`로 확인한 결과, `exit` 직후 컨테이너가 `Exited` 상태임을 확인했다.
-- 이미 실행 중인 다른 컨테이너(nginx 등)에 `docker exec -it`로 접속한 뒤 `exit`을 시도한 경우에는 컨테이너가 죽지 않고 계속 실행되는 것을 확인했다.
-- `Ctrl + P, Q`로 빠져나왔을 때도 컨테이너가 죽지 않고 계속 실행되는 것을 확인했다.
-
-**해결**
-
-```bash
-# 컨테이너를 백그라운드(detached)로 실행
-docker run -d --name my-dev ubuntu tail -f /dev/null
-
-# 이미 실행 중인 컨테이너에 접속
-docker exec -it my-dev bash
-```
-
-컨테이너를 처음 띄울 때 `-d` 옵션으로 백그라운드에서 영구적으로 동작하도록 설정하고, 이미 돌아가고 있는 컨테이너에는 `docker exec -it my-dev bash`로 접속하는 방식으로 전환했다. 이렇게 하면 `exec`로 들어간 터미널에서 `exit`을 하더라도 컨테이너의 메인 프로세스는 그대로 살아있으므로 컨테이너가 중지되지 않는다.
+아무리 코드를 수정해도 동일한 오류가 반복되자, 코드 자체보다 실행 환경을 점검해볼 필요가 있다고 판단했다. 터미널에서 아래 명령어로 현재 작업 위치를 확인했다.
 
 **대안 / 배운 점**
 
-이번 문제를 겪으면서 **"코드가 정상적이라면, 의심의 화살을 실행 환경으로 돌려야 한다"**는 소중한 교훈을 얻었다. 처음에는 코드 내부의 논리적 오류나 문법 문제일 것이라 맹신하고 수없이 코드를 수정해 보았지만, 실제 원인은 엉뚱하게도 파일을 실행하는 **'현재 작업 위치(경로)'**라는 아주 기초적인 환경적 요인이었다. 이 과정에서 문제의 본질을 놓친 채 엉뚱한 곳을 헤매며 시간을 쏟는 것이 얼마나 비효율적인지 뼈저리게 느꼈다.
-
-앞으로 개발을 할 때는 복잡한 코드 수정에만 매몰되지 않고, `pwd` 명령어로 현재 내 위치를 먼저 확인하는 것처럼 실행 맥락과 환경을 가장 먼저 점검하는 기본기를 잊지 말아야겠다고 다짐했다. 눈앞의 에러에 당황하기보다 시야를 넓혀 전체적인 시스템 환경을 바라보는 개발자의 안목을 기르는 좋은 계기가 되었다.
+이번 문제를 겪으면서 “코드가 정상적이라면, 실행 환경을 확인해 보자”라는 소중한 교훈을 얻었다. 처음에는 코드 내부의 논리적 오류나 문법 문제일 것이라 맹신하고 수없이 코드를 수정해 보았지만, 실제 원인은 엉뚱하게도 파일을 실행하는 ‘현재 작업 위치(경로)’라는 아주 기초적인 환경적 요인이었다. 이 과정에서 문제의 본질을 놓친 채 엉뚱한 곳을 헤매며 시간을 쏟는 것이 얼마나 비효율적인지 뼈저리게 느꼈다. 앞으로 개발을 할 때는 복잡한 코드 수정에만 매몰되지 않고, `pwd` 명령어로 현재 내 위치를 먼저 확인하는 것처럼 실행 맥락과 환경을 가장 먼저 점검하는 기본기를 잊지 말아야겠다고 다짐했다. 눈앞의 에러에 당황하기보다 시야를 넓혀 전체적인 시스템 환경을 바라보는 개발자의 안목을 기르는 좋은 계기가 되었다.
 
 ---
 
@@ -721,7 +706,7 @@ docker exec -it my-dev bash
 ## 📎 실행 방법 참고
 
 ```bash
-git clone https://github.com/roiker7/codyssey_test.git
+git clone https://github.com/roiker7/codyssey_E1-1.git
 cd codyssey_test
 docker build -t my-web .
 docker run -d --name web-container -p 8080:80 my-web
@@ -732,7 +717,5 @@ docker run -d --name web-container -p 8080:80 my-web
 ```bash
 curl http://localhost:8080
 ```
-
 ---
 
-> 본 문서에 기록된 모든 명령어와 출력 결과는 실제 실습 과정에서 수행하고 기록한 내용을 기반으로 작성되었다. 다만 GitHub 연동 화면, 포트 매핑 접속 화면 등 일부 스크린샷은 첨부 위치만 표시해두었으므로, 실제 제출 시 해당 위치에 스크린샷 파일을 추가해야 한다.
