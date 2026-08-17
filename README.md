@@ -429,7 +429,7 @@ root@abfc7ff7d760:/# echo "fighting!"
 fighting!
 ```
 ```
-sarguments7021@c6r3s3 codyssey-e1-1 % docker build -t e1-web:1.0 ./src
+% docker build -t e1-web:1.0 ./src
 [+] Building 1.8s (7/7) FINISHED                                                                                          docker:orbstack
  => [internal] load build definition from Dockerfile                                                                                 0.2s
  => => transferring dockerfile: 170B                                                                                                 0.0s
@@ -445,13 +445,15 @@ sarguments7021@c6r3s3 codyssey-e1-1 % docker build -t e1-web:1.0 ./src
  => => writing image sha256:1c776491ab7860d7888c233c6264e1c71bc9bda8330ea55c7365448df29c3555                                         0.0s
  => => naming to docker.io/library/e1-web:1.0                                                                                        0.0s
 
+
 % docker run -d --name e1-web e1-web:1.0
+43cfb4b5aaa770602899a4dbaf807493e66142a046d07603948ee8c4bb61fb15
 
 % docker ps --filter name=e1-web
 CONTAINER ID   IMAGE        COMMAND                  CREATED          STATUS          PORTS     NAMES
-43cfb4b5aaa7   e1-web:1.0   "/docker-entrypoint.…"   14 seconds ago   Up 13 seconds   80/tcp    e1-web
+43cfb4b5aaa7   e1-web:1.0   "/docker_test"   14 seconds ago   Up 13 seconds   80/tcp    test
 
-sarguments7021@c6r3s3 codyssey-e1-1 % docker exec e1-web printenv APP_ENV
+% docker exec e1-web printenv APP_ENV
 dev
 ```
 ### 5-3. 컨테이너 종료/유지 방식 비교
@@ -576,14 +578,15 @@ ac7bf8188c92   my-web    "/docker-entrypoint.…"   7 hours ago     Up 7 hours  
 
 `-p 8080:80` 옵션으로 호스트 8080 포트를 컨테이너 80 포트에 매핑하여 브라우저 및 `curl`로 접속을 검증했다.
 
-> 📸 **[증거 위치]** 브라우저에서 `http://localhost:8080` 접속 시 커스텀 페이지("오늘의 명언")가 정상 출력되는 화면 (스크린샷 첨부 위치)
+> 📸 ![](./도커파일 기본.png) 브라우저에서 `http://localhost:8080` 접속 시 커스텀 페이지("오늘의 명언")가 정상 출력되는 화면 (스크린샷 첨부 위치)
 
 ### 6-5. 바인드 마운트 vs 빌드 이미지 비교 관찰
 
 빌드된 이미지 컨테이너(`web-container`, 8080번 포트)와 별도로, 동일한 `index.html`을 **바인드 마운트**로 연결한 컨테이너(`my-wed-mount`, 8081번 포트)를 함께 띄워 두 방식의 차이를 비교 관찰했다.
 
 **관찰 결과**
-
+![](./도커파일 기본.png)
+![](./도커파일 마운트 적용.png)
 - 바인드 마운트(8081)를 적용한 경우: 호스트의 `index.html`을 수정하고 새로고침하면 **즉각적으로 변경 사항이 반영**되었다.
 - 이미지 빌드(8080)만 적용한 경우: 파일을 수정해도 반영되지 않으며, 새 이미지를 다시 `build` → 컨테이너를 재실행 → 새로고침해야 변경 사항이 반영되었다.
 
