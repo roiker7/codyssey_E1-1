@@ -456,7 +456,7 @@ CONTAINER ID   IMAGE         COMMAND      CREATED          STATUS               
 abfc7ff7d760   ubuntu        "bash"       6 minutes ago    Exited (0) 11 seconds ago   my-ubuntu
 ```
 
-**② `Ctrl + P, Q` (detach) — 실행 상태가 유지된 채로 터미널에서만 빠져나옴**
+**② Ctrl + P, Q — 실행 상태가 유지된 채로 터미널에서만 빠져나옴**
 
 ```bash
 docker ps
@@ -484,11 +484,11 @@ abfc7ff7d760   ubuntu    "bash"       14 minutes ago   Up 7 minutes    my-ubuntu
 
 | 방식 | 동작 | 결과 |
 |---|---|---|
-| `exit` (attach 상태에서) | 컨테이너의 메인 프로세스(쉘)를 종료 | 컨테이너 **정지(Exited)** |
-| `Ctrl + P, Q` | 터미널 연결만 해제(detach), 프로세스는 유지 | 컨테이너 **계속 실행(Up)** |
-| `docker exec`로 진입 후 `exit` | exec으로 연 별도 세션만 종료, 메인 프로세스는 그대로 유지 | 컨테이너 **계속 실행(Up)** |
+| `exit` (attach 상태에서) | 컨테이너의 메인 프로세스(쉘)를 종료 | 컨테이너 exited |
+| `Ctrl + P, Q` | 터미널 연결만 해제, 프로세스는 유지 | 컨테이너 계속 실행|
+| `docker exec`로 진입 후 `exit` | exec으로 연 별도 세션만 종료, 메인 프로세스는 그대로 유지 | 컨테이너 계속 실행 |
 
-즉 컨테이너를 정지시키는 것은 "터미널 연결 해제"가 아니라 **메인 프로세스(PID 1) 종료 여부**임을 확인했다. `exec`으로 진입한 세션은 메인 프로세스와 독립적이므로, 그 세션에서 `exit`해도 컨테이너 자체에는 영향이 없다.
+즉 컨테이너를 정지시키는 것은 "터미널 연결 해제"가 아니라 메인 프로세스 종료 여부임을 확인했다. exec으로 진입한 세션은 메인 프로세스와 독립적이므로, 그 세션에서 exit해도 컨테이너 자체에는 영향이 없다.
 
 ---
 
