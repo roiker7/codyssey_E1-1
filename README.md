@@ -438,34 +438,7 @@ root@abfc7ff7d760:/# echo "fighting!"
 ```text
 fighting!
 ```
-```
-% docker build -t e1-web:1.0 ./src
-[+] Building 1.8s (7/7) FINISHED                                                                                          docker:orbstack
- => [internal] load build definition from Dockerfile                                                                                 0.2s
- => => transferring dockerfile: 170B                                                                                                 0.0s
- => [internal] load metadata for docker.io/library/nginx:alpine                                                                      0.0s
- => [internal] load .dockerignore                                                                                                    0.2s
- => => transferring context: 60B                                                                                                     0.0s
- => [internal] load build context                                                                                                    0.3s
- => => transferring context: 342B                                                                                                    0.0s
- => [1/2] FROM docker.io/library/nginx:alpine                                                                                        0.8s
- => [2/2] COPY index.html /usr/share/nginx/html/index.html                                                                           0.1s
- => exporting to image                                                                                                               0.2s
- => => exporting layers                                                                                                              0.1s
- => => writing image sha256:1c776491ab7860d7888c233c6264e1c71bc9bda8330ea55c7365448df29c3555                                         0.0s
- => => naming to docker.io/library/e1-web:1.0                                                                                        0.0s
 
-
-% docker run -d --name e1-web e1-web:1.0
-43cfb4b5aaa770602899a4dbaf807493e66142a046d07603948ee8c4bb61fb15
-
-% docker ps --filter name=e1-web
-CONTAINER ID   IMAGE        COMMAND                  CREATED          STATUS          PORTS     NAMES
-43cfb4b5aaa7   e1-web:1.0   "/docker_test"   14 seconds ago   Up 13 seconds   80/tcp    test
-
-% docker exec e1-web printenv APP_ENV
-dev
-```
 ### 5-3. 컨테이너 종료/유지 방식 비교
 
 **① `exit` — 컨테이너 자체가 종료됨**
