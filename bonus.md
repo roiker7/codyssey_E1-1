@@ -157,12 +157,6 @@ Found orphan containers ([my_db_server]) for this project. If you removed or ren
 
 # GitHub SSH 키 설정
 - HTTPS 대신 SSH로 푸시가 가능하도록 키를 등록하고 동작을 확인한다.
-% ls -al ~/.ssh
-total 8
-drwxr-xr-x   3 roiker78137  roiker78137   96  8 17 17:37 .
-drwxr-x---+ 29 roiker78137  roiker78137  928  8 17 20:50 ..
--rw-r--r--   1 roiker78137  roiker78137  210  8 17 17:37 config
-```
 ```
 % ssh-keygen -t rsa -b 4096 -C "<email>@example.com"
 Generating public/private rsa key pair.
@@ -171,7 +165,7 @@ Generating public/private rsa key pair.
 ### 배움 포인트: 인증 방식 차이와 보안 습관
 | 구분 | HTTPS | SSH |
 | --- | --- | --- |
-| 주소 형태 | [https://github.com/](https://github.com/)... | git@github.com:... |
+| 주소 형태 | https://github.com/ | git@github.com:|
 | 인증 수단 | GitHub 토큰 | SSH 키 |
 | 초기 설정 | 쉬움 | 약간 복잡 |
 | 반복 사용 | 토큰 입력/저장 필요 | 한 번 설정 후 편리 |
