@@ -297,6 +297,16 @@ Server:
 
 **검증 방법**: `docker --version`으로 클라이언트 버전을, `docker info`로 데몬(Server) 정상 동작 여부와 실행 중인 컨테이너/이미지 개수를 확인했다. OrbStack 컨텍스트에서 Docker 데몬이 정상 동작 중임을 확인했다.
 
+| 구분 | Dockerfile | Image | Container |
+|---|---|---|---|
+| 역할 | 어떤 환경을 만들지 명령어로 정의 | 컨테이너를 만들기 위한 원본 | 실제 애플리케이션 실행 |
+| 생성 방법 | 직접 작성 | docker build로 생성 | docker run으로 생성 및 실행 |
+| 상태 | 텍스트 파일 | 정적인 상태, 읽기 전용 | 실행 중이거나 중지된 상태 |
+| 포함 내용 | 베이스 이미지, 패키지 설치, 파일 복사, 실행 명령어 등 | 실행 파일, 라이브러리, 코드, 설정, 런타임 등 | 이미지 기반 실행 환경 + 변경 가능한 컨테이너 레이어 |
+| 변경 가능 여부 | 수정 가능 | 기본적으로 변경되지 않음 | 실행 중 파일 생성/수정 가능 |
+| 명령어 예시 | Dockerfile  | docker build -t my-app <br>docker pull nginx | docker run my-app<br>docker run -d -p 8080:80 nginx |
+| 핵심 포인트 | 이미지를 어떻게 만들지 적는다 | 하나의 이미지로 여러 컨테이너 생성 가능 | 호스트 커널을 공유하며 격리된 프로세스로 실행 |
+
 ---
 
 ## Step 4. Docker 기본 운영 명령 수행
@@ -553,15 +563,35 @@ EXPOSE 80
 | `EXPOSE 80` | 컨테이너가 사용하는 포트를 명시하여, 다른 사람이 이미지 사용 시 포트를 쉽게 파악할 수 있도록 함 |
 
 ### 6-3. 빌드 및 실행 결과
-
-이미지(`my-web`)가 정상적으로 생성되어 컨테이너가 문제없이 기동되었음을 `docker ps -a`로 확인했다. (별도의 `docker build` 출력 로그는 보존해두지 않았다.)
-
+```
+ % docker build -t my-docker-html .
+[+] Building 3.1s (7/7) FINISHED                                                                                docker:orbstack
+ => [internal] load build definition from Dockerfile                                                                       0.2s
+ => => transferring dockerfile: 289B                                                                                       0.0s
+ => [internal] load metadata for docker.io/library/nginx:alpine                                                            0.1s
+ => [internal] load .dockerignore                                                                                          0.2s
+ => => transferring context: 2B                                                                                            0.0s
+ => [internal] load build context                                                                                          0.3s
+ => => transferring context: 324B                                                                                          0.0s
+ => [1/2] FROM docker.io/library/nginx:alpine@sha256:4a73073bd557c65b759505da037898b61f1be6cbcc3c2c3aeac22d2a470c1752      1.1s
+ => => resolve docker.io/library/nginx:alpine@sha256:4a73073bd557c65b759505da037898b61f1be6cbcc3c2c3aeac22d2a470c1752      0.2s
+ => [2/2] COPY index.html /usr/share/nginx/html/index.html                                                                 0.1s
+ => exporting to image                                                                                                     0.9s
+ => => exporting layers                                                                                                    0.4s
+ => => exporting manifest sha256:71f2d651bcf10cbf11a7dfb3a7034d5ab2fd318c850574f491e3de776de12765                          0.0s
+ => => exporting config sha256:68a1ac7726b2eae40e370e3564459d2c45ed5cd04460de6029a2e4c4c883e98c                            0.1s
+ => => exporting attestation manifest sha256:cadd2ea198ee83305068a70dc7e867cb890954621321aca4a9d3737baccc1737              0.1s
+ => => exporting manifest list sha256:c78aac291208fb696f9dd24e61fd82502c0a68c8342c8a518ccbe4798191f6bb                     0.0s
+ => => naming to docker.io/library/my-docker-html:latest                                                                   0.0s
+ => => unpacking to docker.io/library/my-docker-html:latest
+```
+                                
 ```bash
-docker run -d --name web-container -p 8080:80 my-web
+% docker run -d -p 8080:80 --name my-web-container my-docker-html
 ```
 
 ```text
-d7ba13e8837825034c198ff68bae4c130999b20cc257e472dda7964d99ac28e0
+fe2d267a53c884479c0806de5898e476f9d6f1d0b9fb8e3c6de22c579d93f66c
 ```
 
 ```bash
@@ -569,14 +599,16 @@ docker ps -a
 ```
 
 ```text
-CONTAINER ID   IMAGE     COMMAND                   CREATED         STATUS         PORTS                                      NAMES
-98f8aa8e2a2a   nginx     "/docker-entrypoint.…"   4 minutes ago   Up 4 minutes   0.0.0.0:8081->80/tcp, [::]:8081->80/tcp   my-wed-mount
-ac7bf8188c92   my-web    "/docker-entrypoint.…"   7 hours ago     Up 7 hours     0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   web-container
+CONTAINER ID   IMAGE                COMMAND                   CREATED        STATUS                      PORTS                                     NAMES
+fe2d267a53c8   my-docker-html       "/docker-entrypoint.…"   2 hours ago    Up 2 hours                  0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   my-web-container
 ```
 
 ### 6-4. 포트 매핑 접속 증거
 ![](./실습이미지/도커파일기본.png)
 `-p 8080:80` 옵션으로 호스트 8080 포트를 컨테이너 80 포트에 매핑하여 브라우저 및 `curl`로 접속을 검증했다.
+```
+http://localhost:8080
+```
 
 ### 6-5. 바인드 마운트 vs 빌드 이미지 비교 관찰
 
