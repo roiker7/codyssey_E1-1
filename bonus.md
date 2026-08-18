@@ -165,7 +165,7 @@ Generating public/private rsa key pair.
 ### 배움 포인트: 인증 방식 차이와 보안 습관
 | 구분 | HTTPS | SSH |
 | --- | --- | --- |
-| 주소 형태 | https://github.com/ | git@github.com:|
+| 주소 형태 | https://github.com/.. | git@github.com:..|
 | 인증 수단 | GitHub 토큰 | SSH 키 |
 | 초기 설정 | 쉬움 | 약간 복잡 |
 | 반복 사용 | 토큰 입력/저장 필요 | 한 번 설정 후 편리 |
