@@ -142,9 +142,8 @@ Found orphan containers ([my_db_server]) for this project. If you removed or ren
 ```
 ```
  docker compose config
-결과 화면 넣기
 ```
-
+![](./실습이미지/compose_포트바꾸기.png)
 - 배움 포인트: 설정과 코드의 분리
 환경 변수는 코드에 직접 쓰면 안 되는 설정값을 밖으로 빼는 방법입니다.
 예를 들어 DB 비밀번호, 포트 번호, API 키 같은 값은 코드에 고정하지 않고 .env나 Compose의 environment로 관리합니다.
