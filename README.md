@@ -115,13 +115,13 @@ ls -al
 
 ```text
 total 24
-drwxr-xr-x   7 roiker78137  roiker78137  224  7 30 10:08 .
-drwxr-x---+ 24 roiker78137  roiker78137  768  7 30 15:54 ..
-drwxr-xr-x  12 roiker78137  roiker78137  384  7 30 10:06 .git
-drwxr-xr-x   9 roiker78137  roiker78137  288  7 30 15:22 codyssey_test
--rw-r--r--   1 roiker78137  roiker78137  237  7 30 10:06 Dockerfile
--rw-r--r--   1 roiker78137  roiker78137  260  7 30 10:06 index.html
--rw-r--r--   1 roiker78137  roiker78137  314  7 30 10:06 README.md
+drwxr-xr-x   7 <user>  <user>  224  7 30 10:08 .
+drwxr-x---+ 24 <user>  <user>  768  7 30 15:54 ..
+drwxr-xr-x  12 <user>  <user>  384  7 30 10:06 .git
+drwxr-xr-x   9 <user>  <user>  288  7 30 15:22 codyssey_test
+-rw-r--r--   1 <user>  <user>  237  7 30 10:06 Dockerfile
+-rw-r--r--   1 <user>  <user>  260  7 30 10:06 index.html
+-rw-r--r--   1 <user>  <user>  314  7 30 10:06 README.md
 ```
 
 **디렉토리 생성 및 파일 생성/조회**
@@ -205,8 +205,8 @@ ls -l
 ```
 
 ```text
--rw-r--r--  1 roiker78137  roiker78137    0  7 30 16:21 test1
-drwxr-xr-x  2 roiker78137  roiker78137   64  7 30 16:21 test2
+-rw-r--r--  1 <user>  <user>    0  7 30 16:21 test1
+drwxr-xr-x  2 <user>  <user>   64  7 30 16:21 test2
 ```
 
 macOS 기본 권한은 파일 `644`, 디렉토리 `755`이다.
@@ -225,8 +225,8 @@ ls -l
 ```
 
 ```text
--rwxrwxrwx  1 roiker78137  roiker78137    0  7 30 16:21 test1
-drwx------  2 roiker78137  roiker78137   64  7 30 16:21 test2
+-rwxrwxrwx  1 <user>  <user>    0  7 30 16:21 test1
+drwx------  2 <user>  <user>   64  7 30 16:21 test2
 ```
 
 **비교 요약**
