@@ -145,28 +145,36 @@ Found orphan containers ([my_db_server]) for this project. If you removed or ren
 ```
 ![](./실습이미지/compose_포트바꾸기.png)
 - 배움 포인트: 설정과 코드의 분리
-환경 변수는 코드에 직접 쓰면 안 되는 설정값을 밖으로 빼는 방법입니다.
-예를 들어 DB 비밀번호, 포트 번호, API 키 같은 값은 코드에 고정하지 않고 .env나 Compose의 environment로 관리합니다.
-핵심은 코드는 그대로 두고, 실행 환경에 따라 설정만 바꿀 수 있게 하는 것입니다.
+핵심 요약
+데이터베이스 비밀번호, 포트 번호, API 키 같은 설정값을 코드에 직접 고정하지 않고 환경 변수로 분리하여, 코드 수정 없이 실행 환경에 따라 설정만 유연하게 바꿀 수 있도록 하는 관리 방식입니다.
+
+핵심 내용
+설정 분리: 민감하거나 환경에 따라 달라지는 값을 코드에서 분리
+관리 방식: .env 파일이나 Compose의 environment 설정 활용
+유연성: 동일한 코드를 유지하면서 실행 환경별 설정 변경 가능
 
 ---
 
 # GitHub SSH 키 설정
 - HTTPS 대신 SSH로 푸시가 가능하도록 키를 등록하고 동작을 확인한다.
-```
-roiker78137@c4r1s4 codyssey_E1-1 % ls -al ~/.ssh
+% ls -al ~/.ssh
 total 8
 drwxr-xr-x   3 roiker78137  roiker78137   96  8 17 17:37 .
 drwxr-x---+ 29 roiker78137  roiker78137  928  8 17 20:50 ..
 -rw-r--r--   1 roiker78137  roiker78137  210  8 17 17:37 config
 ```
 ```
-% ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+% ssh-keygen -t rsa -b 4096 -C "<email>@example.com"
 Generating public/private rsa key pair.
 ```
 
 ### 배움 포인트: 인증 방식 차이와 보안 습관
-GitHub SSH 키 설정의 핵심은 비밀번호 대신 SSH 키로 안전하게 인증하는 것입니다.
-HTTPS는 아이디/토큰으로 인증하고, SSH는 내 컴퓨터에 있는 개인키와 GitHub에 등록한 공개키가 짝이 맞는지 확인해서 인증합니다.
-중요한 보안 습관은 개인키는 절대 공유하지 않고, GitHub에는 공개키만 등록하는 것입니다.
-정리하면, 배움 포인트는 인증 방식의 차이를 이해하고, 비밀키를 안전하게 관리하는 습관을 만드는 것입니다.
+| 구분 | HTTPS | SSH |
+| --- | --- | --- |
+| 주소 형태 | [https://github.com/](https://github.com/)... | git@github.com:... |
+| 인증 수단 | GitHub 토큰 | SSH 키 |
+| 초기 설정 | 쉬움 | 약간 복잡 |
+| 반복 사용 | 토큰 입력/저장 필요 | 한 번 설정 후 편리 |
+| 보안 핵심 | 토큰 관리 | 개인 키 관리 |
+| 주 사용 상황 | 간단한 clone, 초보자 | 개발자 로컬 환경, 배포 서버 |
+요약: 간단히 쓰려면 HTTPS, 장기적으로 개발 환경을 편하게 쓰려면 SSH가 좋습니다.
