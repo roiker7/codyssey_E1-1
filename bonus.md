@@ -75,17 +75,24 @@ Docker Compose는 실행된 컨테이너들을 자동으로 동일한 네트워�
 서비스 디스커버리: 복잡한 IP 주소 대신 이름만으로 서비스를 찾아 연결해 주는 기능
 통신 방식: localhost 대신 서비스 이름을 사용하여 데이터베이스 등에 접속(localhost는 자기 자신으로 인식하여 접속 실폐할 가능성)
 
-
 ```
-컨테이너끼리 통신: 같은 네트워크 안에서는 포트 설정없이도 이름으로 통신가능  
+[app.py]
+connection = pymysql.connect(
+    host='db',          # IP 주소 대신 도커 서비스 이름을 그대로 적습니다!
+    port=3306
+)
+----------------------------------------------------------------
+[docker-compose.yml]
 services:
-  app:
-    build: .
-    depends_on:
-      - db
+    web:
+       build: .
+       ports:
+       - "8080:80"
 
-  db:
-    image: mysql:8
+   db:
+      image: mysql:8.0
+      environment:
+           MYSQL_PASSWORD: user1234
 ```
 위 설정에서 app 컨테이너는 db 라는 이름으로 MySQL 컨테이너를 찾을 수 있다. 그래서 애플리케이션 DB 주소를 db로 설정하면 된다
 
