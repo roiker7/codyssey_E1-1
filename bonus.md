@@ -121,7 +121,7 @@ services:
       - "${WEB_PORT:-8080}:80"
 ```
 ```.env
-WEB_PORT=8080 #만약 포트를 바꾸고 싶다면 .env만 수정하면 된다
+WEB_PORT=8080 #만약 포트를 바꾸고 싶다면 WEB_PORT 만 수정하면 된다
 ```
 ```
 % docker compose up -d
