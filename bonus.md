@@ -146,12 +146,6 @@ Found orphan containers ([my_db_server]) for this project. If you removed or ren
 ---
 
 # GitHub SSH 키 설정
-- HTTPS 대신 SSH로 푸시가 가능하도록 키를 등록하고 동작을 확인한다.
-```
-% ssh-keygen -t rsa -b 4096 -C "<email>@example.com"
-Generating public/private rsa key pair.
-```
-
 ### 배움 포인트: 인증 방식 차이와 보안 습관
 | 구분 | HTTPS | SSH |
 | --- | --- | --- |
