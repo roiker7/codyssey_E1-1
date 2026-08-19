@@ -20,11 +20,8 @@ services:
     restart: always
 ```
 ### 배움 포인트: 컨테이너 실행 명령이 “문서화된 실행 설정”으로 바뀌는 이유
-Docker Compose는 복잡한 docker run 명령어를 반복하는 대신, 설정 파일(compose.yaml)을 통해 컨테이너 실행 환경을 명확히 기록하고 공유하는 문서화된 실행 설정 역할을 합니다.
-
-- 재현성: 팀원 누구나 동일한 환경을 오류 없이 쉽게 재현 가능
-- 공유성: 실행 방법이 파일 자체로 기록되어 협업 시 전달이 명확함
-- 관리 편의성: 긴 명령어를 매번 입력할 필요 없이 효율적으로 관리 가능
+Docker가 “컨테이너 하나를 실행하는 도구”라면,<br>
+Docker Compose는 여러 컨테이너로 구성된 애플리케이션 전체를 한 번에 실행하는 도구입니다
 
 ---
 
@@ -97,24 +94,18 @@ services:
 # Compose 운영 명령어 습득
 | 명령어 | 설명 | 주요 옵션 및 사용 예시 |
 | --- | --- | --- |
-| docker compose up | docker-compose.yml 에 정의된 모든 서비스 컨테이너를 생성하고 실행합니다. | -d: 백그라운드에서 실행<br>
-<br>
-<br>docker compose up -d |
-| docker compose ps | 현재 실행 중인 멀티 컨테이너들의 상태, 포트 매핑 등을 조회합니다. | 기본 형태<br>
-<br>
-<br>docker compose ps |
-| docker compose logs | 컨테이너 내부의 시스템 로그를 확인하여 에러 디버깅 등에 활용합니다. | -f: 실시간 로그 추적<br>
-<br>
-<br>docker compose logs -f |
-| docker compose down | 실행 중인 모든 컨테이너를 중지하고 삭제하며, 내부 네트워크까지 깔끔하게 정리합니다. | -v: 데이터 볼륨까지 함께 삭제<br>
+| docker compose up | docker-compose.yml 에 정의된 모든 서비스 컨테이너를 생성하고 실행합니다. | -docker compose up  |
+| docker compose ps | 현재 실행 중인 멀티 컨테이너들의 상태, 포트 매핑 등을 조회합니다. | docker compose ps |
+| docker compose logs | 컨테이너 내부의 시스템 로그를 확인하여 에러 디버깅 등에 활용합니다. | docker compose logs  |
+| docker compose down | 실행 중인 모든 컨테이너를 중지하고 삭제하며, 내부 네트워크까지 깔끔하게 정리합니다. | -v: 데이터 볼륨까지 함께 삭제<br>|
 <br>
 
 ### 배움 포인트: 운영 관점의 “상태 확인 루틴” 만들기
 ```
-docker compose up -d   # 실행
-docker compose ps      # 상태 확인
-docker compose logs -f # 로그 확인
-docker compose down    # 종료/정리
+docker compose up    # 실행
+docker compose ps     # 상태 확인
+docker compose logs   # 로그 확인
+docker compose down   # 종료/정리
 ```
 로틴은 켜기 → 상태 보기 → 로그 보기 → 끄기
 즉, 단순히 실행만 하는 게 아니라 ps로 정상인지 확인하고, 문제가 있으면 logs로 원인을 찾는 습관을 만드는 것이 배움 포인트입니다.
