@@ -556,7 +556,7 @@ EXPOSE 80
 
 ### 6-3. 빌드 및 실행 결과
 ```
- % docker build -t my-docker-html .
+ % docker build -t my-docker-html . # t의 의미, 마지막에 이미지를 지정하지 않고 . 을 사용하는 이유
 [+] Building 3.1s (7/7) FINISHED                                                                                docker:orbstack
  => [internal] load build definition from Dockerfile                                                                       0.2s
  => => transferring dockerfile: 289B                                                                                       0.0s
@@ -580,6 +580,7 @@ EXPOSE 80
                                 
 ```bash
 % docker run -d -p 8080:80 --name my-web-container my-docker-html
+-d의 의미 : 이렇게 하지 않았을 때의 생길 수 있는 문제점
 ```
 
 ```text
