@@ -92,14 +92,6 @@ services:
 ---
 
 # Compose 운영 명령어 습득
-| 명령어 | 설명 | 주요 옵션 및 사용 예시 |
-| --- | --- | --- |
-| docker compose up | docker-compose.yml 에 정의된 모든 서비스 컨테이너를 생성하고 실행합니다. | -docker compose up  |
-| docker compose ps | 현재 실행 중인 멀티 컨테이너들의 상태, 포트 매핑 등을 조회합니다. | docker compose ps |
-| docker compose logs | 컨테이너 내부의 시스템 로그를 확인하여 에러 디버깅 등에 활용합니다. | docker compose logs  |
-| docker compose down | 실행 중인 모든 컨테이너를 중지하고 삭제하며, 내부 네트워크까지 깔끔하게 정리합니다. | -v: 데이터 볼륨까지 함께 삭제<br>|
-<br>
-
 ### 배움 포인트: 운영 관점의 “상태 확인 루틴” 만들기
 ```
 docker compose up    # 실행
