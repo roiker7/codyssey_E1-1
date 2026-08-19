@@ -5,7 +5,7 @@ services:
     ports:
       # .env의 WEB_PORT를 가져오고, 없으면 9090을 사용
       - "${WEB_PORT:-9090}:80" 
-    restart: always
+    
 
   cache:
     image: redis:alpine
@@ -13,3 +13,15 @@ services:
     # 변수 없이 직접 작성할 수도 있지만, 필요한 경우 아래처럼 넣을 수 있음
     environment:
       - REDIS_MODE=standalone
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root1234
+      MYSQL_DATABASE: testdb
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user1234
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
